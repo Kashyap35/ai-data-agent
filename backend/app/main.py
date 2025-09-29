@@ -8,11 +8,17 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 from .sql_safety import is_safe_sql
-
-
-# relative imports from this package
 from . import llm_agent
-from .sql_safety import is_safe_sql
+from . import seed_db
+
+# ensure DB exists (create if missing)
+try:
+    created = seed_db.create_db_if_missing()
+    if created:
+        print("✅ Created and seeded ai_agent.db")
+except Exception as e:
+    print("⚠️ Error creating DB on startup:", e)
+
 
 # App & CORS setup
 app = FastAPI(title="AI Data Agent")
