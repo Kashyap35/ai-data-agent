@@ -12,7 +12,7 @@ export default function QueryBox() {
     setLoading(true);
     setRes(null);
     try {
-      const r = await axios.post("http://127.0.0.1:8000/ask", { question: q });
+      const r = await axios.post(`${import.meta.env.VITE_API_URL}/ask`, { question: q });
       setRes(r.data);
     } catch (err) {
       // show more detail
